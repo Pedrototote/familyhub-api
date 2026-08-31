@@ -2,23 +2,22 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');  // ← Añade esto
-
-const app = express();  // ← Crea app PRIMERO
+const cors = require('cors');
+ 
+const app = express();
+ 
+// CORS configurado correctamente
+app.use(cors({
+  origin: function(origin, callback) {
+    callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+ 
 app.use(express.json());
-app.use(cors());
-
-// Agregar headers manualmente
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-  next();
-});
-
+ 
 // Clave secreta para JWT
 const SECRET_KEY = 'tu_clave_super_secreta_familyhub_2024';
 
