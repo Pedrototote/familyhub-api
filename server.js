@@ -2,9 +2,13 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');  // ← Añade esto
+
+const app = express();  // ← Crea app PRIMERO
+app.use(express.json());
 app.use(cors());
 
-// Agregar headers manualmente también
+// Agregar headers manualmente
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -15,14 +19,10 @@ app.use((req, res, next) => {
   next();
 });
 
-const app = express();
-app.use(express.json());
-app.use(cors());
-
 // Clave secreta para JWT
 const SECRET_KEY = 'tu_clave_super_secreta_familyhub_2024';
 
-// Pool de conexiones a MySQL
+// Pool de conexiones...
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER,
