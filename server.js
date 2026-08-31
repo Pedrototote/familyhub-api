@@ -208,7 +208,7 @@ app.get('/api/tasks/today', verifyToken, async (req, res) => {
 app.post('/api/tasks', verifyToken, async (req, res) => {
   try {
     const { familyId } = req.user;
-    const { title, assignedTo, recurrence, customDays, difficulty, estimatedTime, description } = req.body;
+    const { title, assigned_to, recurrence, customDays, difficulty, estimated_time, description } = req.body;
     
     if (!title || !assignedTo) {
       return res.status(400).json({ error: 'Título y usuario asignado requeridos' });
@@ -222,11 +222,11 @@ app.post('/api/tasks', verifyToken, async (req, res) => {
       `, [
         familyId, 
         title, 
-        assignedTo, 
+        assigned_to, 
         recurrence || 'once', 
         JSON.stringify(customDays || []), 
         difficulty || 'fácil', 
-        estimatedTime || 10, 
+        estimated_time || 10, 
         description || ''
       ]);
       
